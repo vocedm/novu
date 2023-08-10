@@ -26,9 +26,18 @@ export interface IEmailOptions {
   customData?: Record<string, Record<string, unknown>>;
 }
 
+/*
+ * export interface IContentOptions {
+ *   type?: string;
+ *   templateId?: string;
+ *   field?: any;
+ * }
+ */
+
 export interface ISmsOptions {
   to: string;
   content: string;
+  contents?: any;
   from?: string;
   attachments?: IAttachmentOptions[];
   id?: string;

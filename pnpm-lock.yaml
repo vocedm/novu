@@ -1630,6 +1630,7 @@ importers:
       '@novu/termii': link:../../providers/termii
       '@novu/testing': link:../../libs/testing
       '@novu/twilio': link:../../providers/twilio
+      '@novu/zenvia': link:../../providers/zenvia
       '@sentry/node': 7.47.0
       analytics-node: 6.2.0
       bullmq: 3.10.4
@@ -11999,11 +12000,11 @@ packages:
       '@babel/traverse': 7.21.4
       '@docusaurus/cssnano-preset': 2.3.1
       '@docusaurus/logger': 2.3.1
-      '@docusaurus/mdx-loader': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
+      '@docusaurus/mdx-loader': 2.3.1_nucoingj6jnpt355a2yzaplk5e
       '@docusaurus/react-loadable': 5.5.2_react@17.0.2
-      '@docusaurus/utils': 2.3.1
-      '@docusaurus/utils-common': 2.3.1
-      '@docusaurus/utils-validation': 2.3.1
+      '@docusaurus/utils': 2.3.1_@docusaurus+types@2.3.1
+      '@docusaurus/utils-common': 2.3.1_@docusaurus+types@2.3.1
+      '@docusaurus/utils-validation': 2.3.1_@docusaurus+types@2.3.1
       '@slorber/static-site-generator-webpack-plugin': 4.0.7
       '@svgr/webpack': 6.5.1
       autoprefixer: 10.4.14_postcss@8.4.21
@@ -12101,11 +12102,11 @@ packages:
       '@babel/traverse': 7.21.4
       '@docusaurus/cssnano-preset': 2.3.1
       '@docusaurus/logger': 2.3.1
-      '@docusaurus/mdx-loader': 2.3.1_nucoingj6jnpt355a2yzaplk5e
+      '@docusaurus/mdx-loader': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
       '@docusaurus/react-loadable': 5.5.2_react@17.0.2
-      '@docusaurus/utils': 2.3.1_@docusaurus+types@2.3.1
-      '@docusaurus/utils-common': 2.3.1_@docusaurus+types@2.3.1
-      '@docusaurus/utils-validation': 2.3.1_@docusaurus+types@2.3.1
+      '@docusaurus/utils': 2.3.1
+      '@docusaurus/utils-common': 2.3.1
+      '@docusaurus/utils-validation': 2.3.1
       '@slorber/static-site-generator-webpack-plugin': 4.0.7
       '@svgr/webpack': 6.5.1
       autoprefixer: 10.4.14_postcss@8.4.21
@@ -12709,7 +12710,7 @@ packages:
       react: ^16.8.4 || ^17.0.0
       react-dom: ^16.8.4 || ^17.0.0
     dependencies:
-      '@docusaurus/mdx-loader': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
+      '@docusaurus/mdx-loader': 2.3.1_nucoingj6jnpt355a2yzaplk5e
       '@docusaurus/module-type-aliases': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
       '@docusaurus/plugin-content-blog': 2.3.1_7kevo6ecmq3m3j5csvldmvt63m
       '@docusaurus/plugin-content-docs': 2.3.1_7kevo6ecmq3m3j5csvldmvt63m
@@ -12754,7 +12755,7 @@ packages:
       react: ^16.8.4 || ^17.0.0
       react-dom: ^16.8.4 || ^17.0.0
     dependencies:
-      '@docusaurus/mdx-loader': 2.3.1_nucoingj6jnpt355a2yzaplk5e
+      '@docusaurus/mdx-loader': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
       '@docusaurus/module-type-aliases': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
       '@docusaurus/plugin-content-blog': 2.3.1_7kevo6ecmq3m3j5csvldmvt63m
       '@docusaurus/plugin-content-docs': 2.3.1_7kevo6ecmq3m3j5csvldmvt63m
@@ -23907,6 +23908,7 @@ packages:
 
   /@types/node/16.11.7:
     resolution: {integrity: sha512-QB5D2sqfSjCmTuWcBWyJ+/44bcjO7VbjSbOE0ucoVbAsSNQc4Lt6QkgkVXkTDwkL4z/beecZNDvVX15D4P8Jbw==}
+    dev: true
 
   /@types/node/16.18.40:
     resolution: {integrity: sha512-+yno3ItTEwGxXiS/75Q/aHaa5srkpnJaH+kdkTVJ3DtJEwv92itpKbxU+FjPoh2m/5G9zmUQfrL4A4C13c+iGA==}
@@ -50558,7 +50560,7 @@ packages:
       yn: 3.1.1
     dev: true
 
-  /ts-node/10.9.1_prfxyxghnskheluimpb6dvby4q:
+  /ts-node/10.9.1_u2ngtadnsu6rqlw26gb7xq6vqq:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -50573,6 +50575,7 @@ packages:
         optional: true
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
+      '@swc/core': 1.3.49
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
@@ -50619,7 +50622,6 @@ packages:
       typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-    dev: true
 
   /ts-node/10.9.1_wh2cnrlliuuxb2etxm2m3ttgna:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}

@@ -1019,3 +1019,18 @@ export const azureSmsConfig: IConfigCredentials[] = [
   },
   ...smsConfigBase,
 ];
+
+export const zenviaWhatsAppConfig: IConfigCredentials[] = [
+  {
+    key: CredentialsKeyEnum.ApiKey,
+    displayName: 'Token',
+    type: 'string',
+    required: true,
+  },
+  {
+    key: CredentialsKeyEnum.Domain,
+    displayName: 'Domain',
+    type: 'string',
+    required: true,
+  },
+];

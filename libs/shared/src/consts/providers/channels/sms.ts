@@ -25,6 +25,7 @@ import {
   messagebirdConfig,
   azureSmsConfig,
   bulkSmsConfig,
+  zenviaConfig,
 } from '../credentials';
 import { SmsProviderIdEnum } from '../provider.enum';
 
@@ -242,5 +243,13 @@ export const smsProviders: IProviderConfig[] = [
     credentials: azureSmsConfig,
     docReference: 'https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/sms/receive-sms',
     logoFileName: { light: 'azure-sms.png', dark: 'azure-sms.png' },
+  },
+  {
+    id: SmsProviderIdEnum.Zenvia,
+    displayName: 'Zenvia',
+    channel: ChannelTypeEnum.SMS,
+    credentials: zenviaConfig,
+    docReference: 'https://zenvia.github.io/zenvia-openapi-spec/v2/',
+    logoFileName: { light: 'zenvia.svg', dark: 'zenvia.svg' },
   },
 ];

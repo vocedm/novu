@@ -29,7 +29,7 @@ export interface IEmailOptions {
 
 export interface ISmsOptions {
   to: string;
-  content: string;
+  content: any;
   from?: string;
   attachments?: IAttachmentOptions[];
   id?: string;

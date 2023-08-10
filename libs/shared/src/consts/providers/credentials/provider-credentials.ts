@@ -1019,3 +1019,12 @@ export const azureSmsConfig: IConfigCredentials[] = [
   },
   ...smsConfigBase,
 ];
+
+export const zenviaConfig: IConfigCredentials[] = [
+  {
+    key: CredentialsKeyEnum.ApiKey,
+    displayName: 'Token',
+    type: 'string',
+    required: true,
+  },
+];

@@ -91,6 +91,7 @@
     "@novu/termii": "^0.17.1",
     "@novu/testing": "^0.17.1",
     "@novu/twilio": "^0.17.1",
+    "@novu/zenvia": "^1.0.0",
     "@sentry/node": "^7.12.1",
     "analytics-node": "^6.2.0",
     "bullmq": "^3.10.2",

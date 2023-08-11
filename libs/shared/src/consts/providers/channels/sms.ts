@@ -25,7 +25,7 @@ import {
   messagebirdConfig,
   azureSmsConfig,
   bulkSmsConfig,
-  zenviaWhatsAppConfig,
+  zenviaConfig,
 } from '../credentials';
 import { SmsProviderIdEnum } from '../provider.enum';
 
@@ -246,9 +246,9 @@ export const smsProviders: IProviderConfig[] = [
   },
   {
     id: SmsProviderIdEnum.Zenvia,
-    displayName: 'Zenvia WhatsApp',
+    displayName: 'Zenvia',
     channel: ChannelTypeEnum.SMS,
-    credentials: zenviaWhatsAppConfig,
+    credentials: zenviaConfig,
     docReference: 'https://zenvia.github.io/zenvia-openapi-spec/v2/',
     logoFileName: { light: 'zenvia.svg', dark: 'zenvia.svg' },
   },

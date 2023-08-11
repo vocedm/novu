@@ -52,14 +52,18 @@ export class ZenviaProvider implements ISmsProvider {
 
     console.log('In ZAP ZENVIA');
 
+    const contentParse = JSON.parse(options.content);
+
     //Create post body
     const data: ZenviaParams = {
       from: options.from,
       to: options.to,
-      contents: JSON.stringify(options.content),
+      contents: contentParse.contents,
     };
 
     console.log('CONTENT ZAP: ', data);
+
+    // console.log('CONTENT JSON ZAP: ', data.contents);
 
     //set token in "X-API-TOKEN: YOUR_API_TOKEN" \
 

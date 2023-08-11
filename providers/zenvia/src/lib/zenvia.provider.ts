@@ -16,6 +16,7 @@ export class ZenviaProvider implements ISmsProvider {
     private config: {
       apiKey: string;
       domain: string;
+      from: string;
     }
   ) {}
 
@@ -49,24 +50,31 @@ export class ZenviaProvider implements ISmsProvider {
      * ];
      */
 
+    console.log('In ZAP ZENVIA');
+
     //Create post body
     const data: ZenviaParams = {
       from: options.from,
       to: options.to,
-      contents: options.contents,
+      contents: JSON.stringify(options.content),
     };
+
+    console.log('CONTENT ZAP: ', data);
 
     //set token in "X-API-TOKEN: YOUR_API_TOKEN" \
 
     //make request
     const header = {
       headers: {
-        'X-Auth-Token': this.config.apiKey,
-        'content-type': 'application/json',
+        'X-API-TOKEN': this.config.apiKey,
+        'Content-Type': 'application/json',
       },
     };
 
+    console.log('CONTENT HEADER: ', header);
+
     const url = `${BASE_URL}`;
+    console.log('URL ZAP: ', url);
     const response = await this.axiosInstance.post(url, data, header);
 
     //set return
@@ -91,19 +99,25 @@ export class ZenviaProvider implements ISmsProvider {
      * ];
      */
 
+    console.log('IN SMS');
+
+    console.log('OPTIONS SMS: ', options);
     //Create post body
     const data: ZenviaParams = {
       from: options.from,
       to: options.to,
-      contents: options.contents,
+      contents: options.content,
     };
 
+    console.log('CONTENT SMS: ', data);
     const header = {
       headers: {
-        'X-Auth-Token': this.config.apiKey,
-        'content-type': 'application/json',
+        'X-API-TOKEN': this.config.apiKey,
+        'Content-Type': 'application/json',
       },
     };
+
+    console.log('CONTENT HEADER SMS: ', header);
 
     const url = `${BASE_URL}`;
     const response = await this.axiosInstance.post(url, data, header);

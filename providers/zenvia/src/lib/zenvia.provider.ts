@@ -40,34 +40,14 @@ export class ZenviaProvider implements ISmsProvider {
   ): Promise<ISendMessageSuccessResponse> {
     const BASE_URL = 'https://api.zenvia.com/v2/channels/whatsapp/messages';
 
-    /*
-     * const contents: Content = [
-     *   {
-     *     type: options.contents.IContentOptions.type,
-     *     templateId: options.contents.IContentOptions.templateId,
-     *     fields: options.contents.IContentOptions.fields,
-     *   },
-     * ];
-     */
-
-    console.log('In ZAP ZENVIA');
-
     const contentParse = JSON.parse(options.content);
 
-    //Create post body
     const data: ZenviaParams = {
       from: options.from,
       to: options.to,
       contents: contentParse.contents,
     };
 
-    console.log('CONTENT ZAP: ', data);
-
-    // console.log('CONTENT JSON ZAP: ', data.contents);
-
-    //set token in "X-API-TOKEN: YOUR_API_TOKEN" \
-
-    //make request
     const header = {
       headers: {
         'X-API-TOKEN': this.config.apiKey,
@@ -75,13 +55,9 @@ export class ZenviaProvider implements ISmsProvider {
       },
     };
 
-    console.log('CONTENT HEADER: ', header);
-
     const url = `${BASE_URL}`;
-    console.log('URL ZAP: ', url);
     const response = await this.axiosInstance.post(url, data, header);
 
-    //set return
     return {
       id: response.data.id,
       date: new Date().toISOString(),
@@ -93,27 +69,14 @@ export class ZenviaProvider implements ISmsProvider {
   ): Promise<ISendMessageSuccessResponse> {
     const BASE_URL = 'https://api.zenvia.com/v2/channels/sms/messages';
 
-    /*
-     * const contents: Content = [
-     *   {
-     *     type: options.contents.IContentOptions.type,
-     *     templateId: options.contents.IContentOptions.templateId,
-     *     fields: options.contents.IContentOptions.fields,
-     *   },
-     * ];
-     */
+    const contentParse = JSON.parse(options.content);
 
-    console.log('IN SMS');
-
-    console.log('OPTIONS SMS: ', options);
-    //Create post body
     const data: ZenviaParams = {
       from: options.from,
       to: options.to,
-      contents: options.content,
+      contents: contentParse.contents,
     };
 
-    console.log('CONTENT SMS: ', data);
     const header = {
       headers: {
         'X-API-TOKEN': this.config.apiKey,
@@ -121,12 +84,9 @@ export class ZenviaProvider implements ISmsProvider {
       },
     };
 
-    console.log('CONTENT HEADER SMS: ', header);
-
     const url = `${BASE_URL}`;
     const response = await this.axiosInstance.post(url, data, header);
 
-    //set return
     return {
       id: response.data.id,
       date: new Date().toISOString(),

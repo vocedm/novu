@@ -27,14 +27,6 @@ export interface IEmailOptions {
   senderName?: string;
 }
 
-/*
- * export interface IContentOptions {
- *   type?: string;
- *   templateId?: string;
- *   field?: any;
- * }
- */
-
 export interface ISmsOptions {
   to: string;
   content: any;

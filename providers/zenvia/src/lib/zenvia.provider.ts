@@ -4,8 +4,8 @@ import {
   ISmsOptions,
   ISmsProvider,
 } from '@novu/stateless';
-import axios from 'axios';
 import { ZenviaParams } from '../types/param';
+import axios from 'axios';
 
 export class ZenviaProvider implements ISmsProvider {
   id = 'zenvia';

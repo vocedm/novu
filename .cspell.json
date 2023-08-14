@@ -507,7 +507,9 @@
     "autodocs",
     "stackalt",
     "mediumdark",
-    "Docgen"
+    "Docgen",
+    "zenvia",
+    "Zenvia"
   ],
   "flagWords": [],
   "patterns": [

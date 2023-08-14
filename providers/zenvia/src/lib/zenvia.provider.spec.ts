@@ -1,42 +1,61 @@
 import { ZenviaProvider } from './zenvia.provider';
-import { ZenviaParams } from '../types/param';
-import axios from 'axios';
 
-const mockConfig = {
-  apiKey: 'test',
-  domain: 'SMS',
-  from: '123456789',
-};
-
-const mockNovuMessage = {
-  to: '987654321',
-  content: {
-    contents: [
-      {
-        type: 'text',
-        text: 'message text',
-      },
-    ],
-  },
-};
-
-test('should trigger zenvia sms library correctly', async () => {
-  const fakePost = jest.fn(() => {
-    return Promise.resolve('0');
+test('should trigger zenvia library correctly with sms domain', async () => {
+  const provider = new ZenviaProvider({
+    apiKey: 'SG.',
+    domain: 'SMS',
+    from: '123',
   });
 
-  jest.spyOn(axios, 'post').mockImplementation(fakePost);
+  const spy = jest
+    .spyOn(provider, 'sendMessage')
+    .mockImplementation(async () => {
+      return {
+        date: new Date().toISOString(),
+        id: Math.ceil(Math.random() * 100),
+      } as any;
+    });
 
-  const provider = new ZenviaProvider(mockConfig);
+  await provider.sendMessage({
+    content: 'Your otp code is 32901',
+    from: 'Zenvia Sms Test',
+    to: '+2347063317344',
+  });
 
-  await provider.sendMessage(mockNovuMessage);
+  expect(spy).toHaveBeenCalled();
+  expect(spy).toHaveBeenCalledWith({
+    to: '+2347063317344',
+    from: 'Zenvia Sms Test',
+    content: 'Your otp code is 32901',
+  });
+});
 
-  const data: ZenviaParams = {
-    from: mockConfig.from,
-    to: mockNovuMessage.to,
-    contents: mockNovuMessage.content,
-  };
+test('should trigger zenvia library correctly with whatsapp domain', async () => {
+  const provider = new ZenviaProvider({
+    apiKey: 'SG.',
+    domain: 'WHATSAPP',
+    from: '123',
+  });
 
-  expect(fakePost).toBeCalled();
-  expect(fakePost).toBeCalledWith(data);
+  const spy = jest
+    .spyOn(provider, 'sendMessage')
+    .mockImplementation(async () => {
+      return {
+        date: new Date().toISOString(),
+        id: Math.ceil(Math.random() * 100),
+      } as any;
+    });
+
+  await provider.sendMessage({
+    content: 'Your otp code is 32901',
+    from: 'WhatsApp Test',
+    to: '+2347063317344',
+  });
+
+  expect(spy).toHaveBeenCalled();
+  expect(spy).toHaveBeenCalledWith({
+    to: '+2347063317344',
+    from: 'WhatsApp Test',
+    content: 'Your otp code is 32901',
+  });
 });

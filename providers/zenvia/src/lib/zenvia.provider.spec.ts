@@ -25,7 +25,7 @@ test('should trigger zenvia library correctly with sms domain', async () => {
   expect(spy).toHaveBeenCalled();
   expect(spy).toHaveBeenCalledWith({
     to: '+2347063317344',
-    from: 'ZevniaSms Test',
+    from: 'ZenviaSms Test',
     content: 'Your otp code is 32901',
   });
 });

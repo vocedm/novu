@@ -69,13 +69,17 @@ export class ZenviaProvider implements ISmsProvider {
   ): Promise<ISendMessageSuccessResponse> {
     const BASE_URL = 'https://api.zenvia.com/v2/channels/sms/messages';
 
+    console.log('TESTE');
     const contentParse = JSON.parse(options.content);
 
+    console.log(contentParse);
     const data: ZenviaParams = {
       from: options.from,
       to: options.to,
       contents: contentParse.contents,
     };
+
+    console.log(data.contents);
 
     const header = {
       headers: {
@@ -84,8 +88,12 @@ export class ZenviaProvider implements ISmsProvider {
       },
     };
 
+    console.log('TESTE');
+
     const url = `${BASE_URL}`;
     const response = await this.axiosInstance.post(url, data, header);
+
+    console.log('TESTE 2');
 
     return {
       id: response.data.id,

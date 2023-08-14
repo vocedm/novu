@@ -17,6 +17,9 @@ Add your Zenvia token, keyword and domain parameter.
 - SMS: to send sms messages with Zenvia
 - WHATSAPP: to send whatsapp messages with Zenvia
 
+![image](https://github.com/vocedm/novu/assets/23130033/12890eb5-553b-4445-8c00-eb755ce06347)
+
+
 ## Sending with Novu
 
 Create a new workflow in novu
@@ -52,5 +55,9 @@ Create a new workflow in novu
   ]
 }
 ```
+![image](https://github.com/vocedm/novu/assets/23130033/2f7e28d2-cdc6-4b9a-8bfb-9a0470491fc2)
+
 
 3: Set your Phone in parameter on Workflow Triger.
+
+![image](https://github.com/vocedm/novu/assets/23130033/1795bd48-3b60-4efd-9f0e-83638c79cf14)

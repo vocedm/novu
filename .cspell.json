@@ -497,7 +497,9 @@
     "reactjs",
     "nextjs",
     "vanillajs",
-    "quckstart"
+    "quckstart",
+    "zenvia",
+    "Zenvia",
   ],
   "flagWords": [],
   "patterns": [

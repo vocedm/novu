@@ -3,6 +3,8 @@ import {
   ISendMessageSuccessResponse,
   ISmsOptions,
   ISmsProvider,
+  SmsEventStatusEnum,
+  ISMSEventBody,
 } from '@novu/stateless';
 import { ZenviaParams } from '../types/param';
 import axios from 'axios';
@@ -23,15 +25,74 @@ export class ZenviaProvider implements ISmsProvider {
   async sendMessage(
     options: ISmsOptions
   ): Promise<ISendMessageSuccessResponse> {
+    let response = {};
     switch (this.config.domain) {
       case 'SMS':
-        this.sendSMS(options);
+        response = this.sendSMS(options);
         break;
       case 'WHATSAPP':
-        this.sendWhatsapp(options);
+        response = this.sendWhatsapp(options);
         break;
       default:
-        return;
+        return undefined;
+    }
+
+    return response;
+  }
+
+  getMessageId(body: any | any[]): string[] {
+    if (Array.isArray(body)) {
+      return body.map((item) => item.id);
+    }
+
+    return [body.id];
+  }
+
+  parseEventBody(
+    body: any | any[],
+    identifier: string
+  ): ISMSEventBody | undefined {
+    if (Array.isArray(body)) {
+      body = body.find((item) => item.MessageSid === identifier);
+    }
+
+    if (!body) {
+      return undefined;
+    }
+
+    const status = this.getStatus(body.MessageStatus);
+
+    if (status === undefined) {
+      return undefined;
+    }
+
+    return {
+      status: status,
+      date: new Date().toISOString(),
+      externalId: body.id,
+      response: body.response ? body.response : '',
+      row: body,
+    };
+  }
+
+  private getStatus(event: string): SmsEventStatusEnum | undefined {
+    switch (event) {
+      case 'SENT':
+        return SmsEventStatusEnum.SENT;
+      case 'DELIVERED':
+        return SmsEventStatusEnum.DELIVERED;
+      case 'READ':
+        return SmsEventStatusEnum.DELIVERED;
+      case 'DELETED':
+        return SmsEventStatusEnum.DELIVERED;
+      case 'CLICKED':
+        return SmsEventStatusEnum.DELIVERED;
+      case 'VERIFIED':
+        return SmsEventStatusEnum.DELIVERED;
+      case 'NOT_DELIVERED':
+        return SmsEventStatusEnum.UNDELIVERED;
+      case 'REJECTED':
+        return SmsEventStatusEnum.REJECTED;
     }
   }
 

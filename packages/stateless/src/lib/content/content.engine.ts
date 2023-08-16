@@ -12,6 +12,10 @@ Handlebars.registerHelper(
   }
 );
 
+Handlebars.registerHelper('json', function helper(args) {
+  return JSON.stringify(args, null, 2);
+});
+
 type ContentEnginePayload = {
   [key: string]:
     | string

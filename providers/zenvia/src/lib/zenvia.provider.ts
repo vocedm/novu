@@ -42,10 +42,10 @@ export class ZenviaProvider implements ISmsProvider {
 
   getMessageId(body: any | any[]): string[] {
     if (Array.isArray(body)) {
-      return body.map((item) => item.id);
+      return body.map((item) => item.messageId);
     }
 
-    return [body.id];
+    return [body.messageId];
   }
 
   parseEventBody(
@@ -53,7 +53,7 @@ export class ZenviaProvider implements ISmsProvider {
     identifier: string
   ): ISMSEventBody | undefined {
     if (Array.isArray(body)) {
-      body = body.find((item) => item.MessageSid === identifier);
+      body = body.find((item) => item.messageId === identifier);
     }
 
     if (!body) {
@@ -69,7 +69,7 @@ export class ZenviaProvider implements ISmsProvider {
     return {
       status: status,
       date: new Date().toISOString(),
-      externalId: body.id,
+      externalId: body.messageId,
       response: body.response ? body.response : '',
       row: body,
     };

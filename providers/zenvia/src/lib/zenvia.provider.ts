@@ -60,7 +60,7 @@ export class ZenviaProvider implements ISmsProvider {
       return undefined;
     }
 
-    const status = this.getStatus(body.MessageStatus);
+    const status = this.getStatus(body.messageStatus.code);
 
     if (status === undefined) {
       return undefined;

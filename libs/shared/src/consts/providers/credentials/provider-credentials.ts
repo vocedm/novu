@@ -740,3 +740,24 @@ export const sendchampConfig: IConfigCredentials[] = [
   },
   ...smsConfigBase,
 ];
+
+export const zenviaConfig: IConfigCredentials[] = [
+  {
+    key: CredentialsKeyEnum.ApiKey,
+    displayName: 'Token',
+    type: 'string',
+    required: true,
+  },
+  {
+    key: CredentialsKeyEnum.Domain,
+    displayName: 'Domain',
+    type: 'string',
+    required: true,
+  },
+  {
+    key: CredentialsKeyEnum.From,
+    displayName: 'From',
+    type: 'string',
+    required: true,
+  },
+];

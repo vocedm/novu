@@ -17,8 +17,6 @@ export class ZenviaProvider implements ISmsProvider {
   constructor(
     private config: {
       apiKey: string;
-      domain: string;
-      from: string;
     }
   ) {}
 
@@ -26,7 +24,10 @@ export class ZenviaProvider implements ISmsProvider {
     options: ISmsOptions
   ): Promise<ISendMessageSuccessResponse> {
     let response = {};
-    switch (this.config.domain) {
+
+    const contentParse = JSON.parse(options.content);
+
+    switch (contentParse.type_provider) {
       case 'SMS':
         response = this.sendSMS(options);
         break;
@@ -104,7 +105,7 @@ export class ZenviaProvider implements ISmsProvider {
     const contentParse = JSON.parse(options.content);
 
     const data: ZenviaParams = {
-      from: options.from,
+      from: contentParse.from,
       to: options.to,
       contents: contentParse.contents,
     };
@@ -133,7 +134,7 @@ export class ZenviaProvider implements ISmsProvider {
     const contentParse = JSON.parse(options.content);
 
     const data: ZenviaParams = {
-      from: options.from,
+      from: contentParse.from,
       to: options.to,
       contents: contentParse.contents,
     };

@@ -9,8 +9,6 @@ export class ZenviaHandler extends BaseSmsHandler {
   buildProvider(credentials: ICredentials) {
     this.provider = new ZenviaProvider({
       apiKey: credentials.apiKey,
-      domain: credentials.domain,
-      from: credentials.from,
     });
   }
 }

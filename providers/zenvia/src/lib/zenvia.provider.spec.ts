@@ -3,8 +3,6 @@ import { ZenviaProvider } from './zenvia.provider';
 test('should trigger zenvia library correctly with sms domain', async () => {
   const provider = new ZenviaProvider({
     apiKey: 'SG.',
-    domain: 'SMS',
-    from: '123',
   });
 
   const spy = jest
@@ -17,24 +15,38 @@ test('should trigger zenvia library correctly with sms domain', async () => {
     });
 
   await provider.sendMessage({
-    content: 'Your otp code is 32901',
-    from: 'Zenvia Sms Test',
+    content: {
+      from: 'SMS Test',
+      type_provider: 'SMS',
+      contents: [
+        {
+          type: 'text',
+          text: 'Teste',
+        },
+      ],
+    },
     to: '+2347063317344',
   });
 
   expect(spy).toHaveBeenCalled();
   expect(spy).toHaveBeenCalledWith({
+    content: {
+      from: 'SMS Test',
+      type_provider: 'SMS',
+      contents: [
+        {
+          type: 'text',
+          text: 'Teste',
+        },
+      ],
+    },
     to: '+2347063317344',
-    from: 'Zenvia Sms Test',
-    content: 'Your otp code is 32901',
   });
 });
 
 test('should trigger zenvia library correctly with whatsapp domain', async () => {
   const provider = new ZenviaProvider({
     apiKey: 'SG.',
-    domain: 'WHATSAPP',
-    from: '123',
   });
 
   const spy = jest
@@ -47,15 +59,31 @@ test('should trigger zenvia library correctly with whatsapp domain', async () =>
     });
 
   await provider.sendMessage({
-    content: 'Your otp code is 32901',
-    from: 'WhatsApp Test',
+    content: {
+      from: 'Whatsapp Test',
+      type_provider: 'WHATSAPP',
+      contents: [
+        {
+          type: 'text',
+          text: 'Teste',
+        },
+      ],
+    },
     to: '+2347063317344',
   });
 
   expect(spy).toHaveBeenCalled();
   expect(spy).toHaveBeenCalledWith({
+    content: {
+      from: 'Whatsapp Test',
+      type_provider: 'WHATSAPP',
+      contents: [
+        {
+          type: 'text',
+          text: 'Teste',
+        },
+      ],
+    },
     to: '+2347063317344',
-    from: 'WhatsApp Test',
-    content: 'Your otp code is 32901',
   });
 });

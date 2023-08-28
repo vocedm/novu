@@ -21,7 +21,7 @@ test('should trigger zenvia library correctly with sms domain', async () => {
       contents: [
         {
           type: 'text',
-          text: 'Teste',
+          text: 'Test',
         },
       ],
     },
@@ -36,7 +36,7 @@ test('should trigger zenvia library correctly with sms domain', async () => {
       contents: [
         {
           type: 'text',
-          text: 'Teste',
+          text: 'Test',
         },
       ],
     },
@@ -65,7 +65,7 @@ test('should trigger zenvia library correctly with whatsapp domain', async () =>
       contents: [
         {
           type: 'text',
-          text: 'Teste',
+          text: 'Test',
         },
       ],
     },
@@ -80,7 +80,7 @@ test('should trigger zenvia library correctly with whatsapp domain', async () =>
       contents: [
         {
           type: 'text',
-          text: 'Teste',
+          text: 'Test',
         },
       ],
     },

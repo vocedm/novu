@@ -14,6 +14,8 @@ Go the Zenvia website and create and configure new sandbox channel (SMS or Whats
 
 Add your Zenvia token:
 
+![image](https://github.com/vocedm/novu/assets/141740861/aeb00dc9-9d0c-4fae-9cef-16a4040d0089)
+
 ## Sending with Novu
 
 Create a new workflow in novu
@@ -70,6 +72,8 @@ Create a new workflow in novu
   ]
 }
 ```
+
+![image](https://github.com/vocedm/novu/assets/141740861/257aa630-9e67-4a2f-a11f-5d4b64e8257f)
 
 3: Set your Phone in parameter on Workflow Trigger.
 

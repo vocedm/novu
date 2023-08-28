@@ -1027,16 +1027,4 @@ export const zenviaConfig: IConfigCredentials[] = [
     type: 'string',
     required: true,
   },
-  {
-    key: CredentialsKeyEnum.Domain,
-    displayName: 'Domain',
-    type: 'string',
-    required: true,
-  },
-  {
-    key: CredentialsKeyEnum.From,
-    displayName: 'From',
-    type: 'string',
-    required: true,
-  },
 ];

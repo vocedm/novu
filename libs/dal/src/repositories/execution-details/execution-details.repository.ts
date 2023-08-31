@@ -44,4 +44,15 @@ export class ExecutionDetailsRepository extends BaseRepository<
       _notificationId: notificationId,
     });
   }
+
+  /**
+   * Activity feed might need to retrieve all the executions of a notification.
+   */
+  public async findByTransactionId(transactionId: string, environmentId: string) {
+    return await this.find({
+      transactionId: transactionId,
+      _environmentId: environmentId,
+      source: 'Webhook',
+    });
+  }
 }

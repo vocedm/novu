@@ -2,11 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { Group, Center, Box } from '@mantine/core';
 import styled from '@emotion/styled';
 import slugify from 'slugify';
-import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useIntercom } from 'react-use-intercom';
 import {
   CHANNELS_WITH_PRIMARY,
-  CredentialsKeyEnum,
   EmailProviderIdEnum,
   IConfigCredentials,
   IConstructIntegrationDto,
@@ -19,23 +18,22 @@ import {
 import { Button, colors, Sidebar, Text } from '../../../../design-system';
 import { useProviders } from '../../useProviders';
 import type { IIntegratedProvider } from '../../types';
-import { IntegrationInput } from '../IntegrationInput';
+import { IntegrationInput } from '../../components/IntegrationInput';
 import { useFetchEnvironments } from '../../../../hooks/useFetchEnvironments';
 import { useUpdateIntegration } from '../../../../api/hooks/useUpdateIntegration';
 import { successMessage } from '../../../../utils/notifications';
-import { UpdateIntegrationSidebarHeader } from '../UpdateIntegrationSidebarHeader';
-import { SetupWarning } from '../SetupWarning';
-import { UpdateIntegrationCommonFields } from '../UpdateIntegrationCommonFields';
-import { NovuInAppFrameworks } from '../NovuInAppFrameworks';
+import { UpdateIntegrationSidebarHeader } from '../../components/UpdateIntegrationSidebarHeader';
+import { SetupWarning } from '../../components/SetupWarning';
+import { UpdateIntegrationCommonFields } from '../../components/UpdateIntegrationCommonFields';
+import { NovuInAppFrameworks } from '../../components/NovuInAppFrameworks';
 import { FrameworkEnum } from '../../../quick-start/consts';
 import { When } from '../../../../components/utils/When';
 import { SetupTimeline } from '../../../quick-start/components/SetupTimeline';
 import { Faq } from '../../../quick-start/components/QuickStartWrapper';
-import { NovuInAppFrameworkHeader } from '../NovuInAppFrameworkHeader';
-import { NovuInAppSetupWarning } from '../NovuInAppSetupWarning';
-import { NovuProviderSidebarContent } from './NovuProviderSidebarContent';
+import { NovuInAppFrameworkHeader } from '../../components/NovuInAppFrameworkHeader';
+import { NovuInAppSetupWarning } from '../../components/NovuInAppSetupWarning';
+import { NovuProviderSidebarContent } from '../../components/multi-provider/NovuProviderSidebarContent';
 import { useSelectPrimaryIntegrationModal } from './useSelectPrimaryIntegrationModal';
-import { ShareableUrl } from '../Modal/ConnectIntegrationForm';
 
 interface IProviderForm {
   name: string;
@@ -170,7 +168,7 @@ export function UpdateProviderSidebar({
     const { channel: selectedChannel, environmentId, primary } = selectedProvider;
     const isActiveFieldChanged = dirtyFields.active;
     const hasSameChannelActiveIntegration = !!providers
-      .filter((el) => el.integrationId !== selectedProvider.integrationId)
+      .filter((el) => !NOVU_PROVIDERS.includes(el.providerId) && el.integrationId !== selectedProvider.integrationId)
       .find((el) => el.active && el.channel === selectedChannel && el.environmentId === environmentId);
     const isChannelSupportPrimary = CHANNELS_WITH_PRIMARY.includes(selectedChannel);
 
@@ -200,11 +198,6 @@ export function UpdateProviderSidebar({
 
     handleSubmit(updateAndSelectPrimaryIntegration)(e);
   };
-
-  const hmacEnabled = useWatch({
-    control,
-    name: `credentials.${CredentialsKeyEnum.Hmac}`,
-  });
 
   if (
     SmsProviderIdEnum.Novu === selectedProvider?.providerId ||
@@ -298,7 +291,7 @@ export function UpdateProviderSidebar({
               <Controller
                 name={`credentials.${credential.key}`}
                 control={control}
-                {...(credential.type === 'boolean' || credential.type === 'switch' ? { defaultValue: false } : {})}
+                defaultValue={credential.type === 'boolean' || credential.type === 'switch' ? false : ''}
                 rules={{
                   required: credential.required ? `Please enter a ${credential.displayName.toLowerCase()}` : undefined,
                 }}
@@ -308,7 +301,6 @@ export function UpdateProviderSidebar({
               />
             </InputWrapper>
           ))}
-          <ShareableUrl provider={selectedProvider?.providerId} hmacEnabled={!!hmacEnabled} />
           {isNovuInAppProvider && <NovuInAppFrameworks onFrameworkClick={onFrameworkClickCallback} />}
         </When>
         <When truthy={isNovuInAppProvider && sidebarState === SidebarStateEnum.EXPANDED}>

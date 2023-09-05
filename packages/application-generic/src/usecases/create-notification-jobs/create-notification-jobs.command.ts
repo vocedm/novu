@@ -4,7 +4,6 @@ import { NotificationTemplateEntity, SubscriberEntity } from '@novu/dal';
 import {
   ChannelTypeEnum,
   ISubscribersDefine,
-  ITenantDefine,
   ProvidersIdEnum,
 } from '@novu/shared';
 
@@ -39,7 +38,4 @@ export class CreateNotificationJobsCommand extends EnvironmentWithUserCommand {
 
   @IsOptional()
   actor?: SubscriberEntity;
-
-  @IsOptional()
-  tenant?: ITenantDefine;
 }

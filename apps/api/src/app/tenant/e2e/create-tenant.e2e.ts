@@ -39,14 +39,12 @@ describe('Create Tenant - /tenants (POST)', function () {
     await createTenant({
       session,
       identifier: 'identifier_123',
-      name: 'name_123',
     });
 
     try {
       await createTenant({
         session,
         identifier: 'identifier_123',
-        name: 'name_123',
       });
 
       throw new Error('');

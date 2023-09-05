@@ -32,10 +32,6 @@ import {
   WsQueueService,
   SelectIntegration,
   GetNovuProviderCredentials,
-  UpdateTenant,
-  GetTenant,
-  CreateTenant,
-  ProcessTenant,
 } from '@novu/application-generic';
 import { JobRepository } from '@novu/dal';
 
@@ -110,10 +106,6 @@ const USE_CASES = [
   CreateSubscriber,
   UpdateSubscriber,
   GetNovuProviderCredentials,
-  UpdateTenant,
-  GetTenant,
-  CreateTenant,
-  ProcessTenant,
 ];
 
 const REPOSITORIES = [JobRepository];

@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ClassConstructor, plainToInstance } from 'class-transformer';
-import { addDays } from 'date-fns';
-import {
-  MESSAGE_GENERIC_RETENTION_DAYS,
-  MESSAGE_IN_APP_RETENTION_DAYS,
-  NOTIFICATION_RETENTION_DAYS,
-} from '@novu/shared';
+import { addMonths } from 'date-fns';
 import { Model, Types, ProjectionType, FilterQuery, UpdateQuery, QueryOptions } from 'mongoose';
 import { DalException } from '../shared';
 
@@ -103,27 +98,24 @@ export class BaseRepository<T_DBModel, T_MappedEntity, T_Enforcement = object> {
     switch (modelName) {
       case 'Message':
         if (data.channel === 'in_app') {
-          return addDays(startDate, MESSAGE_IN_APP_RETENTION_DAYS);
+          return addMonths(startDate, 12);
         } else {
-          return addDays(startDate, MESSAGE_GENERIC_RETENTION_DAYS);
+          return addMonths(startDate, 1);
         }
       case 'Notification':
-        return addDays(startDate, NOTIFICATION_RETENTION_DAYS);
+        return addMonths(startDate, 1);
       default:
         return null;
     }
   }
 
-  async create(data: FilterQuery<T_DBModel> & T_Enforcement, options: IOptions = {}): Promise<T_MappedEntity> {
+  async create(data: FilterQuery<T_DBModel> & T_Enforcement): Promise<T_MappedEntity> {
     const expireAt = this.calcExpireDate(this.MongooseModel.modelName, data);
     if (expireAt) {
       data = { ...data, expireAt };
     }
     const newEntity = new this.MongooseModel(data);
-
-    const saveOptions = options?.writeConcern ? { w: options?.writeConcern } : {};
-
-    const saved = await newEntity.save(saveOptions);
+    const saved = await newEntity.save();
 
     return this.mapEntity(saved);
   }
@@ -182,8 +174,4 @@ export class BaseRepository<T_DBModel, T_MappedEntity, T_Enforcement = object> {
   protected mapEntities(data: any): T_MappedEntity[] {
     return plainToInstance<T_MappedEntity, T_MappedEntity[]>(this.entity, JSON.parse(JSON.stringify(data)));
   }
-}
-
-interface IOptions {
-  writeConcern?: number | 'majority';
 }

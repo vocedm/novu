@@ -1,9 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
+import { EnvironmentWithUserCommand } from '@novu/application-generic';
 import { TenantCustomData } from '@novu/shared';
-import { TenantEntity } from '@novu/dal';
-
-import { EnvironmentWithUserCommand } from '../../commands';
 
 export class UpdateTenantCommand extends EnvironmentWithUserCommand {
   @IsString()
@@ -20,7 +18,4 @@ export class UpdateTenantCommand extends EnvironmentWithUserCommand {
 
   @IsOptional()
   data?: TenantCustomData;
-
-  @IsOptional()
-  tenant?: TenantEntity;
 }

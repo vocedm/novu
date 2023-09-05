@@ -58,8 +58,8 @@ export class DistributedLockService {
        */
       this.distributedLock.on('error', (error) => {
         Logger.error(
-          error,
           'There has been an error in the Distributed Lock service',
+          error,
           LOG_CONTEXT
         );
       });

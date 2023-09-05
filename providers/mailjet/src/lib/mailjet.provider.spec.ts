@@ -2,7 +2,7 @@ import { MailjetEmailProvider } from './mailjet.provider';
 
 const response = {
   response: {
-    headers: {
+    header: {
       'content-length': '287',
       'content-type': 'application/json; charset=UTF-8',
       'x-mj-request-guid': 'a9e7-437c-84f8-e2c2d5958014',
@@ -35,7 +35,7 @@ const requestFn = jest.fn().mockResolvedValue(response);
 
 jest.mock('node-mailjet', () => {
   return {
-    Client: jest.fn().mockImplementation(() => {
+    connect: jest.fn().mockImplementation(() => {
       return {
         post: jest.fn().mockImplementation(() => {
           return {
@@ -76,8 +76,10 @@ test('should trigger mailjet library correctly and return proper response', asyn
       },
     ],
   });
-  expect(messageResponse.id).toBe('a9e7-437c-84f8-e2c2d5958014');
-  expect(messageResponse.date).toBeDefined();
+  expect(messageResponse).toStrictEqual({
+    id: 'a9e7-437c-84f8-e2c2d5958014',
+    date: 'Sun, 24 Oct 2021 15:56:29 GMT',
+  });
 });
 
 test('should check provider integration correctly', async () => {

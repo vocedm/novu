@@ -39,8 +39,8 @@ export class ReadinessService {
       return healths.every((health) => !!health === true);
     } catch (error) {
       Logger.error(
-        error,
         'Some health indicator throw an error when checking if queues are enabled',
+        error,
         LOG_CONTEXT
       );
 

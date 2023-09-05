@@ -1,15 +1,12 @@
-import { Center, Container, Loader, Tabs, TabsValue } from '@mantine/core';
-import { useMemo } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Container, TabsValue } from '@mantine/core';
 
 import PageContainer from '../../components/layout/components/PageContainer';
 import PageHeader from '../../components/layout/components/PageHeader';
 import { useAuthContext } from '../../components/providers/AuthProvider';
 import { useSegment } from '../../components/providers/SegmentProvider';
-import { ROUTES } from '../../constants/routes.enum';
-import { colors } from '../../design-system';
-import useStyles from '../../design-system/tabs/Tabs.styles';
+import { Tabs } from '../../design-system';
 import { useEnvController } from '../../hooks';
+import { BrandingForm, LayoutsListPage } from './tabs';
 
 const BRANDING = 'Assets';
 const LAYOUT = 'Layouts';
@@ -18,12 +15,6 @@ export function BrandPage() {
   const { currentOrganization, currentUser } = useAuthContext();
   const { environment } = useEnvController();
   const segment = useSegment();
-  const { classes } = useStyles(false);
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const tabValue = useMemo(() => {
-    return pathname === ROUTES.BRAND ? '/' : pathname.replace(ROUTES.BRAND, '');
-  }, [pathname]);
 
   const handleLayoutAnalytics = (event: string, data?: Record<string, unknown>) => {
     segment.track(`[Layout] - ${event}`, {
@@ -40,40 +31,26 @@ export function BrandPage() {
     }
   };
 
-  if (!currentOrganization) {
-    return (
-      <Center>
-        <Loader color={colors.error} size={32} />
-      </Center>
-    );
-  }
+  const menuTabs = [
+    {
+      value: BRANDING,
+      content: <BrandingForm isLoading={!currentOrganization} organization={currentOrganization} />,
+    },
+    {
+      value: LAYOUT,
+      content: <LayoutsListPage handleLayoutAnalytics={handleLayoutAnalytics} />,
+    },
+  ];
 
   return (
     <PageContainer title="Brand">
       <PageHeader title="Brand" />
       <Container fluid px={30}>
         <Tabs
-          orientation="horizontal"
-          keepMounted={true}
-          onTabChange={(newValue) => {
-            trackLayoutFocus(newValue);
-            navigate(ROUTES.BRAND + newValue);
-          }}
-          variant="default"
-          value={tabValue}
-          classNames={classes}
-          mb={15}
-        >
-          <Tabs.List>
-            <Tabs.Tab value="/">Assets</Tabs.Tab>
-            <Tabs.Tab value="/layouts">Layouts</Tabs.Tab>
-          </Tabs.List>
-        </Tabs>
-        <Outlet
-          context={{
-            currentOrganization,
-            handleLayoutAnalytics,
-          }}
+          loading={!currentOrganization}
+          menuTabs={menuTabs}
+          defaultValue={BRANDING}
+          onTabChange={trackLayoutFocus}
         />
       </Container>
     </PageContainer>

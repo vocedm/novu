@@ -3,7 +3,7 @@ import { SubscriberEntity } from '@novu/dal';
 import { SubscriberCustomData } from '@novu/shared';
 import { Transform } from 'class-transformer';
 
-import { EnvironmentCommand } from '../../commands';
+import { EnvironmentCommand } from '../../commands/project.command';
 
 export class UpdateSubscriberCommand extends EnvironmentCommand {
   @IsString()

@@ -88,7 +88,7 @@ export const emailProviders: IProviderConfig[] = [
   },
   {
     id: EmailProviderIdEnum.NetCore,
-    displayName: 'Netcore',
+    displayName: 'NetCore',
     channel: ChannelTypeEnum.EMAIL,
     credentials: netCoreConfig,
     docReference: 'https://docs.novu.co/channels/email/netcore',

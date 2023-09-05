@@ -36,16 +36,6 @@ export interface INotificationTrigger {
   identifier: string;
   variables: INotificationTriggerVariable[];
   subscriberVariables?: INotificationTriggerVariable[];
-  reservedVariables?: ITriggerReservedVariable[];
-}
-
-export enum TriggerContextTypeEnum {
-  TENANT = 'tenant',
-}
-
-export interface ITriggerReservedVariable {
-  type: TriggerContextTypeEnum;
-  variables: INotificationTriggerVariable[];
 }
 
 export interface INotificationTriggerVariable {

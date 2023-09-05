@@ -10,7 +10,6 @@ import {
   IOrganizationEntity,
   IMessage,
   IPaginatedResponse,
-  WebSocketEventEnum,
 } from '@novu/shared';
 
 import { QueryService } from './query.service';
@@ -319,7 +318,7 @@ export class HeadlessService {
 
     if (this.socket) {
       this.socket.on(
-        WebSocketEventEnum.RECEIVED,
+        'notification_received',
         (data?: { message: IMessage }) => {
           if (data?.message) {
             this.queryClient.removeQueries(NOTIFICATIONS_QUERY_KEY, {
@@ -333,7 +332,7 @@ export class HeadlessService {
 
     return () => {
       if (this.socket) {
-        this.socket.off(WebSocketEventEnum.RECEIVED);
+        this.socket.off('notification_received');
       }
     };
   }
@@ -347,7 +346,7 @@ export class HeadlessService {
 
     if (this.socket) {
       this.socket.on(
-        WebSocketEventEnum.UNSEEN,
+        'unseen_count_changed',
         (data?: { unseenCount: number }) => {
           if (Number.isInteger(data?.unseenCount)) {
             this.queryClient.removeQueries(NOTIFICATIONS_QUERY_KEY, {
@@ -365,7 +364,7 @@ export class HeadlessService {
 
     return () => {
       if (this.socket) {
-        this.socket.off(WebSocketEventEnum.UNSEEN);
+        this.socket.off('unseen_count_changed');
       }
     };
   }
@@ -379,7 +378,7 @@ export class HeadlessService {
 
     if (this.socket) {
       this.socket.on(
-        WebSocketEventEnum.UNREAD,
+        'unread_count_changed',
         (data?: { unreadCount: number }) => {
           if (Number.isInteger(data?.unreadCount)) {
             this.queryClient.removeQueries(NOTIFICATIONS_QUERY_KEY, {
@@ -397,7 +396,7 @@ export class HeadlessService {
 
     return () => {
       if (this.socket) {
-        this.socket.off(WebSocketEventEnum.UNREAD);
+        this.socket.off('unread_count_changed');
       }
     };
   }

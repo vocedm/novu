@@ -170,7 +170,6 @@ export const TemplatesStoreModal = ({ general, popular, isOpened, onClose }: ITe
                   width: '100%',
                   minHeight: '300px',
                 }}
-                data-template-store-editor
               />
             </ReactFlowProvider>
             <NovuButtonHolder>

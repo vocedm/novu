@@ -35,7 +35,6 @@ export interface IUserPreferenceSettings {
     _id: string;
     name: string;
     critical: boolean;
-    tags?: string[];
     data?: NotificationTemplateCustomData;
   };
   preference: { enabled: boolean; channels: IPreferenceChannels };

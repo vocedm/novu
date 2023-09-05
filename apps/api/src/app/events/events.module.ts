@@ -23,7 +23,6 @@ import { IntegrationModule } from '../integrations/integrations.module';
 import { ExecutionDetailsModule } from '../execution-details/execution-details.module';
 import { TopicsModule } from '../topics/topics.module';
 import { LayoutsModule } from '../layouts/layouts.module';
-import { TenantModule } from '../tenant/tenant.module';
 
 @Module({
   imports: [
@@ -38,7 +37,6 @@ import { TenantModule } from '../tenant/tenant.module';
     ExecutionDetailsModule,
     TopicsModule,
     LayoutsModule,
-    TenantModule,
   ],
   controllers: [EventsController],
   providers: [

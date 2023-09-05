@@ -11,9 +11,9 @@ const TriggerTitle = styled(Text)`
 `;
 
 export const ExecutionDetailTrigger = ({ identifier, step, subscriberVariables }) => {
-  const { payload, overrides, tenant } = step || {};
+  const { payload, overrides } = step || {};
 
-  const curlSnippet = getCurlTriggerSnippet(identifier, subscriberVariables, payload, overrides, { tenant });
+  const curlSnippet = getCurlTriggerSnippet(identifier, subscriberVariables, payload, overrides);
 
   return (
     <>

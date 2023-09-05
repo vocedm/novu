@@ -32,5 +32,4 @@ export enum ROUTES {
   SUBSCRIBERS = '/subscribers',
   ABOUT = '/about',
   CONTACT = '/contact',
-  BRAND = '/brand',
 }

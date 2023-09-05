@@ -15,11 +15,8 @@ const DIGEST_UNIT_TYPE_TO_SINGULAR = {
   [DigestUnitEnum.MONTHS]: 'month',
 };
 
-const Highlight = ({ children, isHighlight }) => {
+const Highlight = ({ children }) => {
   const { colorScheme } = useMantineColorScheme();
-  if (!isHighlight) {
-    return children;
-  }
 
   return (
     <b
@@ -32,13 +29,13 @@ const Highlight = ({ children, isHighlight }) => {
   );
 };
 
-export const WillBeSentHeader = ({ index, isHighlight = true }: { index: number; isHighlight?: boolean }) => {
+export const WillBeSentHeader = ({ index }: { index: number }) => {
   const { watch } = useFormContext();
 
   const type = watch(`steps.${index}.digestMetadata.type`);
 
   if (type === DigestTypeEnum.TIMED) {
-    return <TimedDigestWillBeSentHeader index={index} isHighlight={isHighlight} />;
+    return <TimedDigestWillBeSentHeader index={index} />;
   }
 
   const unit = watch(`steps.${index}.digestMetadata.regular.unit`);
@@ -47,10 +44,10 @@ export const WillBeSentHeader = ({ index, isHighlight = true }: { index: number;
 
   return (
     <>
-      after <Highlight isHighlight={isHighlight}>{pluralizeTime(amount, DIGEST_UNIT_TYPE_TO_SINGULAR[unit])}</Highlight>
+      after <Highlight>{pluralizeTime(amount, DIGEST_UNIT_TYPE_TO_SINGULAR[unit])}</Highlight>
       {backoff ? (
         <>
-          {isHighlight && <br />} only if <Highlight isHighlight={isHighlight}>frequent events</Highlight> occur
+          <br /> only if <Highlight>frequent events</Highlight> occur
         </>
       ) : (
         ' occur on'

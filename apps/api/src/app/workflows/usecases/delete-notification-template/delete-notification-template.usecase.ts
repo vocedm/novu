@@ -7,7 +7,6 @@ import { CreateChange, CreateChangeCommand } from '../../../change/usecases';
 import { ApiException } from '../../../shared/exceptions/api.exception';
 
 import {
-  AnalyticsService,
   buildNotificationTemplateIdentifierKey,
   buildNotificationTemplateKey,
   InvalidateCacheService,
@@ -28,8 +27,7 @@ export class DeleteNotificationTemplate {
     private createChange: CreateChange,
     private changeRepository: ChangeRepository,
     private invalidateCache: InvalidateCacheService,
-    private deleteMessageTemplate: DeleteMessageTemplate,
-    private analyticsService: AnalyticsService
+    private deleteMessageTemplate: DeleteMessageTemplate
   ) {}
 
   async execute(command: GetNotificationTemplateCommand) {
@@ -96,16 +94,6 @@ export class DeleteNotificationTemplate {
           changeId: parentChangeId,
         })
       );
-
-      this.analyticsService.track(`Removed Notification Template`, command.userId, {
-        _organization: command.organizationId,
-        _environment: command.environmentId,
-        _templateId: command.templateId,
-        data: {
-          draft: item.draft,
-          critical: item.critical,
-        },
-      });
     } catch (e) {
       if (e instanceof DalException) {
         throw new ApiException(e.message);

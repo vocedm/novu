@@ -75,8 +75,8 @@ export class DigestFilterSteps {
       return result;
     } catch (error) {
       Logger.error(
-        error,
         'Failure when parsing digest payload nested key',
+        error,
         LOG_CONTEXT
       );
 

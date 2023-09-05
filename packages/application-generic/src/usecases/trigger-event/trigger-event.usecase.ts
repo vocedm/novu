@@ -38,7 +38,6 @@ import {
   CachedEntity,
 } from '../../services';
 import { ApiException } from '../../utils/exceptions';
-import { ProcessTenant, ProcessTenantCommand } from '../process-tenant';
 
 const LOG_CONTEXT = 'TriggerEventUseCase';
 
@@ -51,22 +50,14 @@ export class TriggerEvent {
     private integrationRepository: IntegrationRepository,
     private jobRepository: JobRepository,
     private notificationTemplateRepository: NotificationTemplateRepository,
-    private processTenant: ProcessTenant,
     private logger: PinoLogger,
     private analyticsService: AnalyticsService
   ) {}
 
   @InstrumentUsecase()
   async execute(command: TriggerEventCommand) {
-    const {
-      actor,
-      environmentId,
-      identifier,
-      organizationId,
-      to,
-      userId,
-      tenant,
-    } = command;
+    const { actor, environmentId, identifier, organizationId, to, userId } =
+      command;
 
     await this.validateTransactionIdProperty(
       command.transactionId,
@@ -98,7 +89,7 @@ export class TriggerEvent {
     if (!template) {
       const message = 'Notification template could not be found';
       const error = new ApiException(message);
-      Logger.error(error, message, LOG_CONTEXT);
+      Logger.error(message, error, LOG_CONTEXT);
       throw error;
     }
 
@@ -106,28 +97,6 @@ export class TriggerEvent {
       command.environmentId,
       template
     );
-
-    if (tenant) {
-      const tenantProcessed = await this.processTenant.execute(
-        ProcessTenantCommand.create({
-          environmentId,
-          organizationId,
-          userId,
-          tenant,
-        })
-      );
-
-      if (!tenantProcessed) {
-        Logger.warn(
-          `Tenant with identifier ${JSON.stringify(
-            tenant.identifier
-          )} of organization ${command.organizationId} in transaction ${
-            command.transactionId
-          } could not be processed.`,
-          LOG_CONTEXT
-        );
-      }
-    }
 
     // We might have a single actor for every trigger, so we only need to check for it once
     let actorProcessed;
@@ -180,7 +149,6 @@ export class TriggerEvent {
             transactionId: command.transactionId,
             userId,
             ...(actor && actorProcessed && { actor: actorProcessed }),
-            tenant,
           });
 
         const notificationJobs = await this.createNotificationJobs.execute(

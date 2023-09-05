@@ -8,10 +8,6 @@ import {
   DelayTypeEnum,
   IFieldFilterPart,
   FilterPartTypeEnum,
-  TriggerReservedVariables,
-  ReservedVariablesMap,
-  TriggerContextTypeEnum,
-  ITriggerReservedVariable,
 } from '@novu/shared';
 import Handlebars from 'handlebars';
 import { ApiException } from '../exceptions/api.exception';
@@ -41,31 +37,21 @@ export class ContentService {
     }
   }
 
-  extractMessageVariables(messages: INotificationTemplateStep[]): {
-    variables: IMustacheVariable[];
-    reservedVariables: ITriggerReservedVariable[];
-  } {
+  extractMessageVariables(messages: INotificationTemplateStep[]): IMustacheVariable[] {
     const variables: IMustacheVariable[] = [];
-    const reservedVariables: ITriggerReservedVariable[] = [];
 
     for (const text of this.messagesTextIterator(messages)) {
       const extractedVariables = this.extractVariables(text);
-      const extractedReservedVariables = this.extractReservedVariables(extractedVariables);
-
-      reservedVariables.push(...extractedReservedVariables);
       variables.push(...extractedVariables);
     }
 
     variables.push(...this.extractStepVariables(messages));
 
-    return {
-      variables: [
-        ...new Map(
-          variables.filter((item) => !this.isSystemVariable(item.name)).map((item) => [item.name, item])
-        ).values(),
-      ],
-      reservedVariables: [...new Map(reservedVariables.map((item) => [item.type, item])).values()],
-    };
+    return [
+      ...new Map(
+        variables.filter((item) => !this.isSystemVariable(item.name)).map((item) => [item.name, item])
+      ).values(),
+    ];
   }
 
   extractStepVariables(messages: INotificationTemplateStep[]): IMustacheVariable[] {
@@ -98,22 +84,6 @@ export class ContentService {
     }
 
     return variables;
-  }
-
-  extractReservedVariables(variables: IMustacheVariable[]): ITriggerReservedVariable[] {
-    const reservedVariables: ITriggerReservedVariable[] = [];
-
-    const reservedVariableTypes = variables
-      .filter((item) => this.isReservedVariable(item.name))
-      .map((item) => this.getVariableNamePrefix(item.name));
-
-    const triggerContextTypes = Array.from(new Set(reservedVariableTypes)) as TriggerContextTypeEnum[];
-
-    triggerContextTypes.forEach((variable) => {
-      reservedVariables.push({ type: variable, variables: ReservedVariablesMap[variable] });
-    });
-
-    return reservedVariables;
   }
 
   extractSubscriberMessageVariables(messages: INotificationTemplateStep[]): string[] {
@@ -161,15 +131,7 @@ export class ContentService {
   }
 
   private isSystemVariable(variableName: string): boolean {
-    return TemplateSystemVariables.includes(this.getVariableNamePrefix(variableName));
-  }
-
-  private getVariableNamePrefix(variableName: string): string {
-    return variableName.includes('.') ? variableName.split('.')[0] : variableName;
-  }
-
-  private isReservedVariable(variableName: string): boolean {
-    return TriggerReservedVariables.includes(this.getVariableNamePrefix(variableName));
+    return TemplateSystemVariables.includes(variableName.includes('.') ? variableName.split('.')[0] : variableName);
   }
 
   private escapeForRegExp(content: string) {

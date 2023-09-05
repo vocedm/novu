@@ -126,11 +126,13 @@ describe('Integrations List Page', function () {
     cy.visit('/integrations');
     cy.location('pathname').should('equal', '/integrations');
 
+    cy.getByTestId('add-provider').should('be.disabled').contains('Add a provider');
+    checkTableLoading();
+
     cy.wait('@getIntegrations');
     cy.wait('@getEnvironments');
 
-    checkTableLoading();
-
+    cy.getByTestId('add-provider').should('be.enabled');
     cy.getByTestId('no-integrations-placeholder').should('be.visible');
     cy.contains('Choose a channel you want to start sending notifications');
 
@@ -149,10 +151,10 @@ describe('Integrations List Page', function () {
     cy.visit('/integrations');
     cy.location('pathname').should('equal', '/integrations');
 
+    cy.getByTestId('add-provider').should('be.disabled').contains('Add a provider');
     checkTableLoading();
 
     cy.wait('@getIntegrations');
-    cy.getByTestId('add-provider').should('be.enabled').contains('Add a provider');
 
     checkTableRow(
       {
@@ -313,10 +315,12 @@ describe('Integrations List Page', function () {
       cy.visit('/integrations');
       cy.location('pathname').should('equal', '/integrations');
 
+      cy.getByTestId('add-provider').should('be.disabled').contains('Add a provider');
+
       cy.wait('@getIntegrations');
       cy.wait('@getEnvironments');
 
-      cy.getByTestId('add-provider').should('be.enabled').contains('Add a provider').click();
+      cy.getByTestId('add-provider').should('be.enabled').click();
 
       cy.location('pathname').should('equal', '/integrations/create');
       cy.getByTestId('select-provider-sidebar').should('be.visible').as('selectProviderSidebar');

@@ -8,7 +8,8 @@ import {
   IEmailEventBody,
   EmailEventStatusEnum,
 } from '@novu/stateless';
-import * as Mailjet from 'node-mailjet';
+import Client, { Email } from 'node-mailjet';
+import { MailjetResponse } from './mailjet-response.interface';
 
 const MAILJET_API_VERSION = 'v3.1';
 
@@ -16,7 +17,7 @@ export class MailjetEmailProvider implements IEmailProvider {
   id = 'mailjet';
   channelType = ChannelTypeEnum.EMAIL as ChannelTypeEnum.EMAIL;
 
-  private mailjetClient: Mailjet.Client;
+  private mailjetClient: Email.Client;
   constructor(
     private config: {
       apiKey: string;
@@ -25,28 +26,24 @@ export class MailjetEmailProvider implements IEmailProvider {
       senderName: string;
     }
   ) {
-    this.mailjetClient = new Mailjet.Client({
-      apiKey: config.apiKey,
-      apiSecret: config.apiSecret,
-    });
+    this.mailjetClient = Client.connect(config.apiKey, config.apiSecret);
   }
 
   async sendMessage(
     emailOptions: IEmailOptions
   ): Promise<ISendMessageSuccessResponse> {
-    const response = await this.mailjetClient
-      .post('send', {
-        version: MAILJET_API_VERSION,
-      })
-      .request<Mailjet.SendEmailV3_1.Response>(
-        this.createMailData(emailOptions)
-      );
+    const send = this.mailjetClient.post('send', {
+      version: MAILJET_API_VERSION,
+    });
+    const requestObject = this.createMailData(emailOptions);
 
-    const { body, response: clientResponse } = response;
+    const response = (await send.request(
+      requestObject
+    )) as unknown as MailjetResponse;
 
     return {
-      id: clientResponse.headers['x-mj-request-guid'],
-      date: new Date().toISOString(),
+      id: response.response.header['x-mj-request-guid'],
+      date: response.response.header.date,
     };
   }
 
@@ -74,15 +71,15 @@ export class MailjetEmailProvider implements IEmailProvider {
     }
   }
 
-  private createMailData(options: IEmailOptions): Mailjet.SendEmailV3_1.Body {
-    const message: Mailjet.SendEmailV3_1.Message = {
+  private createMailData(options: IEmailOptions): Email.SendParams {
+    const message: Email.SendParamsMessage = {
       From: {
         Email: options.from || this.config.from,
         Name: this.config.senderName,
       },
       To: options.to.map((email) => ({
         Email: email,
-      })) as Mailjet.SendEmailV3_1.EmailAddressTo[],
+      })) as Email.SendParamsRecipient[],
       Cc: options.cc?.map((ccItem) => ({ Email: ccItem })),
       Bcc: options.bcc?.map((ccItem) => ({ Email: ccItem })),
       Subject: options.subject,

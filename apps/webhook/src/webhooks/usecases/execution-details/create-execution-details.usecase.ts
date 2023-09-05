@@ -19,7 +19,7 @@ export class CreateExecutionDetails {
       command.channel
     );
 
-    await this.executionDetailsRepository.create(executionDetailsEntity, { writeConcern: 1 });
+    await this.executionDetailsRepository.create(executionDetailsEntity);
   }
 
   private mapWebhookEventIntoEntity(

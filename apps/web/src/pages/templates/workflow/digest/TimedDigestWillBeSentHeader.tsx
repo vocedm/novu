@@ -6,11 +6,8 @@ import { DigestUnitEnum, MonthlyTypeEnum } from '@novu/shared';
 import { colors } from '../../../../design-system';
 import { pluralizeTime } from '../../../../utils';
 
-const Highlight = ({ children, isHighlight }) => {
+const Highlight = ({ children }) => {
   const { colorScheme } = useMantineColorScheme();
-  if (!isHighlight) {
-    return children;
-  }
 
   return (
     <b
@@ -60,13 +57,7 @@ const sortWeekdays = (weekdays: string[]): string[] => {
   return weekdays.sort((a, b) => WEEKDAYS_ORDER.indexOf(a) - WEEKDAYS_ORDER.indexOf(b));
 };
 
-export const TimedDigestWillBeSentHeader = ({
-  index,
-  isHighlight = true,
-}: {
-  index: number;
-  isHighlight?: boolean;
-}) => {
+export const TimedDigestWillBeSentHeader = ({ index }: { index: number }) => {
   const { watch } = useFormContext();
 
   const unit = watch(`steps.${index}.digestMetadata.timed.unit`);
@@ -75,7 +66,7 @@ export const TimedDigestWillBeSentHeader = ({
 
     return (
       <>
-        Every <Highlight isHighlight={isHighlight}>{pluralizeTime(amount, 'minute')}</Highlight>
+        Every <Highlight>{pluralizeTime(amount, 'minute')}</Highlight>
       </>
     );
   }
@@ -85,7 +76,7 @@ export const TimedDigestWillBeSentHeader = ({
 
     return (
       <>
-        Every <Highlight isHighlight={isHighlight}>{pluralizeTime(amount, 'hour')}</Highlight>
+        Every <Highlight>{pluralizeTime(amount, 'hour')}</Highlight>
       </>
     );
   }
@@ -97,11 +88,11 @@ export const TimedDigestWillBeSentHeader = ({
     if (amount !== '' && amount !== '1') {
       return (
         <>
-          Every <Highlight isHighlight={isHighlight}>{getOrdinal(amount)} </Highlight> day
+          Every <Highlight>{getOrdinal(amount)} </Highlight> day
           {atTime && (
             <>
               {' '}
-              at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+              at <Highlight>{atTime}</Highlight>
             </>
           )}
         </>
@@ -110,11 +101,11 @@ export const TimedDigestWillBeSentHeader = ({
 
     return (
       <>
-        <Highlight isHighlight={isHighlight}>Daily</Highlight>
+        <Highlight>Daily</Highlight>
         {atTime && (
           <>
             {' '}
-            at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+            at <Highlight>{atTime}</Highlight>
           </>
         )}
       </>
@@ -140,12 +131,11 @@ export const TimedDigestWillBeSentHeader = ({
     if (amount !== '' && amount !== '1') {
       return (
         <>
-          Every <Highlight isHighlight={isHighlight}>{getOrdinal(amount)} </Highlight> week on{' '}
-          <Highlight isHighlight={isHighlight}>{weekDaysString}</Highlight>
+          Every <Highlight>{getOrdinal(amount)} </Highlight> week on <Highlight>{weekDaysString}</Highlight>
           {atTime && (
             <>
               {' '}
-              at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+              at <Highlight>{atTime}</Highlight>
             </>
           )}
         </>
@@ -154,12 +144,11 @@ export const TimedDigestWillBeSentHeader = ({
 
     return (
       <>
-        <Highlight isHighlight={isHighlight}>Weekly</Highlight> on{' '}
-        <Highlight isHighlight={isHighlight}>{weekDaysString}</Highlight>
+        <Highlight>Weekly</Highlight> on <Highlight>{weekDaysString}</Highlight>
         {atTime && (
           <>
             {' '}
-            at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+            at <Highlight>{atTime}</Highlight>
           </>
         )}
       </>
@@ -182,14 +171,14 @@ export const TimedDigestWillBeSentHeader = ({
     if (amount !== '' && amount !== '1') {
       return (
         <>
-          Every <Highlight isHighlight={isHighlight}>{getOrdinal(amount)} </Highlight> month on{' '}
-          <Highlight isHighlight={isHighlight}>
+          Every <Highlight>{getOrdinal(amount)} </Highlight> month on{' '}
+          <Highlight>
             {getOrdinal(ordinal)} {getOrdinalValueLabel(ordinalValue)}
           </Highlight>
           {atTime && (
             <>
               {' '}
-              at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+              at <Highlight>{atTime}</Highlight>
             </>
           )}
         </>
@@ -198,14 +187,14 @@ export const TimedDigestWillBeSentHeader = ({
 
     return (
       <>
-        <Highlight isHighlight={isHighlight}>Monthly</Highlight> on the{' '}
-        <Highlight isHighlight={isHighlight}>
+        <Highlight>Monthly</Highlight> on the{' '}
+        <Highlight>
           {getOrdinal(ordinal)} {getOrdinalValueLabel(ordinalValue)}
         </Highlight>
         {atTime && (
           <>
             {' '}
-            at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+            at <Highlight>{atTime}</Highlight>
           </>
         )}
       </>
@@ -228,12 +217,11 @@ export const TimedDigestWillBeSentHeader = ({
   if (amount !== '' && amount !== '1') {
     return (
       <>
-        Every <Highlight isHighlight={isHighlight}>{getOrdinal(amount)} </Highlight> month on{' '}
-        <Highlight isHighlight={isHighlight}>{monthDaysString}</Highlight>
+        Every <Highlight>{getOrdinal(amount)} </Highlight> month on <Highlight>{monthDaysString}</Highlight>
         {atTime && (
           <>
             {' '}
-            at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+            at <Highlight>{atTime}</Highlight>
           </>
         )}
       </>
@@ -242,12 +230,11 @@ export const TimedDigestWillBeSentHeader = ({
 
   return (
     <>
-      <Highlight isHighlight={isHighlight}>Monthly</Highlight> on{' '}
-      <Highlight isHighlight={isHighlight}>{monthDaysString}</Highlight>
+      <Highlight>Monthly</Highlight> on <Highlight>{monthDaysString}</Highlight>
       {atTime && (
         <>
           {' '}
-          at <Highlight isHighlight={isHighlight}>{atTime}</Highlight>
+          at <Highlight>{atTime}</Highlight>
         </>
       )}
     </>

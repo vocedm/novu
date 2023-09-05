@@ -8,6 +8,7 @@ import {
   NotificationStepEntity,
 } from '@novu/dal';
 import {
+  ChannelTypeEnum,
   DigestTypeEnum,
   STEP_TYPE_TO_CHANNEL_TYPE,
   StepTypeEnum,
@@ -65,7 +66,7 @@ export class CreateNotificationJobs {
     if (!notification) {
       const message = 'Notification could not be created';
       const error = new PlatformException(message);
-      Logger.error(error, message, LOG_CONTEXT);
+      Logger.error(message, error, LOG_CONTEXT);
       throw error;
     }
 
@@ -84,7 +85,6 @@ export class CreateNotificationJobs {
         identifier: command.identifier,
         payload: command.payload,
         overrides: command.overrides,
-        tenant: command.tenant,
         step,
         transactionId: command.transactionId,
         _notificationId: notification._id,

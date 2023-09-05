@@ -67,7 +67,6 @@ export class UsersController {
       UpdateProfileEmailCommand.create({
         userId: user._id,
         email: body.email,
-        environmentId: user.environmentId,
       })
     );
   }

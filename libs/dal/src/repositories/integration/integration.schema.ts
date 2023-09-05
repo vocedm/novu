@@ -15,7 +15,6 @@ const integrationSchema = new Schema<IntegrationDBModel>(
     _organizationId: {
       type: Schema.Types.ObjectId,
       ref: 'Organization',
-      index: true,
     },
     providerId: Schema.Types.String,
     channel: Schema.Types.String,

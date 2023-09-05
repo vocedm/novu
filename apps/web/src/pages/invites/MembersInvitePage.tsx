@@ -18,11 +18,10 @@ import {
 } from '../../api/organization';
 import { MembersTable } from './components/MembersTable';
 import { Button, Input } from '../../design-system';
-import { Invite, UserAccess } from '../../design-system/icons';
+import { Invite } from '../../design-system/icons';
 import { useAuthContext } from '../../components/providers/AuthProvider';
 import { parseUrl } from '../../utils/routeUtils';
 import { ROUTES } from '../../constants/routes.enum';
-import { ProductLead } from '../../components/utils/ProductLead';
 
 export function MembersInvitePage() {
   const [form] = Form.useForm();
@@ -197,12 +196,6 @@ export function MembersInvitePage() {
           onRemoveMember={removeMemberClick}
           onResendInviteMember={resendInviteMemberClick}
           onChangeMemberRole={changeMemberRoleClick}
-        />
-        <ProductLead
-          icon={<UserAccess />}
-          id="rbac-team-page"
-          title="Role-based access control"
-          text="Securely manage users' permissions to access system resources."
         />
       </Container>
     </PageContainer>

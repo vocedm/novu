@@ -6,7 +6,6 @@ import {
   SubscriberRepository,
   MessageEntity,
   IntegrationEntity,
-  TenantRepository,
 } from '@novu/dal';
 import { ChannelTypeEnum, LogCodeEnum, ExecutionDetailsSourceEnum, ExecutionDetailsStatusEnum } from '@novu/shared';
 import {
@@ -33,7 +32,6 @@ export class SendMessageSms extends SendMessageBase {
   constructor(
     protected subscriberRepository: SubscriberRepository,
     protected messageRepository: MessageRepository,
-    protected tenantRepository: TenantRepository,
     protected createLogUsecase: CreateLog,
     protected createExecutionDetails: CreateExecutionDetails,
     private compileTemplate: CompileTemplate,
@@ -45,7 +43,6 @@ export class SendMessageSms extends SendMessageBase {
       createLogUsecase,
       createExecutionDetails,
       subscriberRepository,
-      tenantRepository,
       selectIntegration,
       getNovuProviderCredentials
     );
@@ -76,8 +73,6 @@ export class SendMessageSms extends SendMessageBase {
     const smsChannel: NotificationStepEntity = command.step;
     if (!smsChannel.template) throw new PlatformException(`Unexpected error: SMS template is missing`);
 
-    const tenant = await this.handleTenantExecution(command.job);
-
     const payload = {
       subscriber: subscriber,
       step: {
@@ -85,7 +80,6 @@ export class SendMessageSms extends SendMessageBase {
         events: command.events,
         total_count: command.events?.length,
       },
-      ...(tenant ? { tenant: { name: tenant.name, ...tenant.data } } : {}),
       ...command.payload,
     };
 

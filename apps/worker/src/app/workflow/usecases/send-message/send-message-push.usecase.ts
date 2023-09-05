@@ -6,7 +6,6 @@ import {
   SubscriberRepository,
   MessageEntity,
   IntegrationEntity,
-  TenantRepository,
 } from '@novu/dal';
 import {
   ChannelTypeEnum,
@@ -40,7 +39,6 @@ export class SendMessagePush extends SendMessageBase {
   constructor(
     protected subscriberRepository: SubscriberRepository,
     protected messageRepository: MessageRepository,
-    protected tenantRepository: TenantRepository,
     protected createLogUsecase: CreateLog,
     protected createExecutionDetails: CreateExecutionDetails,
     private compileTemplate: CompileTemplate,
@@ -52,7 +50,6 @@ export class SendMessagePush extends SendMessageBase {
       createLogUsecase,
       createExecutionDetails,
       subscriberRepository,
-      tenantRepository,
       selectIntegration,
       getNovuProviderCredentials
     );
@@ -77,12 +74,9 @@ export class SendMessagePush extends SendMessageBase {
       events: command.events,
       total_count: command.events?.length,
     };
-    const tenant = await this.handleTenantExecution(command.job);
-
     const data = {
       subscriber: subscriber,
       step: stepData,
-      ...(tenant ? { tenant: { name: tenant.name, ...tenant.data } } : {}),
       ...command.payload,
     };
     let content = '';

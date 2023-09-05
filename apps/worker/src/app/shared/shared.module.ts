@@ -21,7 +21,6 @@ import {
   SubscriberPreferenceRepository,
   TopicRepository,
   TopicSubscribersRepository,
-  TenantRepository,
 } from '@novu/dal';
 import {
   AnalyticsService,
@@ -72,7 +71,6 @@ const DAL_MODELS = [
   SubscriberPreferenceRepository,
   TopicRepository,
   TopicSubscribersRepository,
-  TenantRepository,
 ];
 
 const dalService = new DalService();

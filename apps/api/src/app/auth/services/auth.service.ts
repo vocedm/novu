@@ -9,8 +9,6 @@ import {
   SubscriberRepository,
   UserEntity,
   UserRepository,
-  EnvironmentEntity,
-  IApiKey,
 } from '@novu/dal';
 import { AuthProviderEnum, IJwtPayload, ISubscriberJwt, MemberRoleEnum, SignUpOriginEnum } from '@novu/shared';
 import {
@@ -21,7 +19,6 @@ import {
   buildEnvironmentByApiKey,
   buildSubscriberKey,
   buildUserKey,
-  buildAuthServiceKey,
 } from '@novu/application-generic';
 
 import { CreateUserCommand } from '../../user/usecases/create-user/create-user.dto';
@@ -138,10 +135,13 @@ export class AuthService {
 
   @Instrument()
   async apiKeyAuthenticate(apiKey: string) {
-    const { environment, user, key, error } = await this.getUserData({ apiKey });
-
-    if (error) throw new UnauthorizedException(error);
+    const environment = await this.getEnvironment({ apiKey: apiKey });
     if (!environment) throw new UnauthorizedException('API Key not found');
+
+    const key = environment.apiKeys.find((i) => i.key === apiKey);
+    if (!key) throw new UnauthorizedException('API Key not found');
+
+    const user = await this.getUser({ _id: key._userId });
     if (!user) throw new UnauthorizedException('User not found');
 
     this.logger.assign({
@@ -149,8 +149,6 @@ export class AuthService {
       environmentId: environment._id,
       organizationId: environment._organizationId,
     });
-
-    if (!key) throw new UnauthorizedException('API Key not found');
 
     return await this.getApiSignedToken(user, environment._organizationId, environment._id, key.key);
   }
@@ -336,34 +334,5 @@ export class AuthService {
   })
   private async getSubscriber({ subscriberId, _environmentId }: { subscriberId: string; _environmentId: string }) {
     return await this.subscriberRepository.findBySubscriberId(_environmentId, subscriberId);
-  }
-
-  @CachedEntity({
-    builder: ({ apiKey }: { apiKey: string }) =>
-      buildAuthServiceKey({
-        apiKey: apiKey,
-      }),
-  })
-  private async getUserData({
-    apiKey,
-  }: {
-    apiKey: string;
-  }): Promise<{ environment?: EnvironmentEntity; user?: UserEntity; key?: IApiKey; error?: string }> {
-    const environment = await this.environmentRepository.findByApiKey(apiKey);
-    if (!environment) {
-      return { error: 'API Key not found' };
-    }
-
-    const key = environment.apiKeys.find((i) => i.key === apiKey);
-    if (!key) {
-      return { error: 'API Key not found' };
-    }
-
-    const user = await this.userRepository.findById(key._userId);
-    if (!user) {
-      return { error: 'User not found' };
-    }
-
-    return { environment, user, key };
   }
 }

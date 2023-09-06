@@ -1,7 +1,9 @@
 import { EnvironmentWithUserCommand } from '@novu/application-generic';
-import { IsDefined } from 'class-validator';
+import { IsArray, IsString, IsDefined } from 'class-validator';
 
 export class GetWebhookStatusCommand extends EnvironmentWithUserCommand {
   @IsDefined()
-  transactionId: string;
+  @IsArray()
+  @IsString({ each: true })
+  transactionId: string[];
 }

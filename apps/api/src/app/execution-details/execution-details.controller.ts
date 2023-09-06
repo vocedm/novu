@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, Controller, Get, Query, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Get, Query, UseGuards, UseInterceptors, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { IJwtPayload } from '@novu/shared';
 import { ExecutionDetailsResponseDto } from '@novu/application-generic';
@@ -48,13 +48,11 @@ export class ExecutionDetailsController {
   @ExternalApiAccessible()
   async getExecutionDetailsForTransaction(
     @UserSession() user: IJwtPayload,
-    @Query() query: GetWebhookStatusRequestDto
+    @Body() body: GetWebhookStatusRequestDto
   ): Promise<ExecutionDetailsResponseDto[]> {
-    const transactionId = Array.isArray(query.transactionId) ? query.transactionId : [query.transactionId];
-
     return this.getWebhookStatus.execute(
       GetWebhookStatusCommand.create({
-        transactionId: transactionId,
+        transactionId: body.transactionId,
         userId: user._id,
         environmentId: user.environmentId,
         organizationId: user.organizationId,

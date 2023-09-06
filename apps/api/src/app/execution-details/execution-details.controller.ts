@@ -50,9 +50,11 @@ export class ExecutionDetailsController {
     @UserSession() user: IJwtPayload,
     @Query() query: GetWebhookStatusRequestDto
   ): Promise<ExecutionDetailsResponseDto[]> {
+    const transactionId = Array.isArray(query.transactionId) ? query.transactionId : [query.transactionId];
+
     return this.getWebhookStatus.execute(
       GetWebhookStatusCommand.create({
-        transactionId: query.transactionId,
+        transactionId: transactionId,
         userId: user._id,
         environmentId: user.environmentId,
         organizationId: user.organizationId,

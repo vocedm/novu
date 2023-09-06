@@ -1,7 +1,8 @@
-import { IsDefined, IsMongoId, IsString } from 'class-validator';
+import { IsDefined, IsArray, IsString } from 'class-validator';
 
 export class GetWebhookStatusRequestDto {
   @IsDefined()
-  @IsString()
-  transactionId: string;
+  @IsArray()
+  @IsString({ each: true })
+  transactionId: string[];
 }

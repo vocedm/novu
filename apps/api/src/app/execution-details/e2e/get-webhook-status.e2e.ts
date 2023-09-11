@@ -12,7 +12,7 @@ describe('should get webhook details by transactionId - /executation-details/web
     await session.initialize();
   });
 
-  it('should not allow to update the integration with same identifier', async function () {
+  it('get webhook executation details by transactionId', async function () {
     const transactionId = 'transactionId';
     const detail = await executionDetailsRepository.create({
       _jobId: ExecutionDetailsRepository.createObjectId(),
@@ -35,7 +35,6 @@ describe('should get webhook details by transactionId - /executation-details/web
     };
 
     const { body } = await session.testAgent.get(`/v1/executation-details/webhook`).send(payload);
-    console.log(body);
     expect(body[0].transactionId).to.equal('transactionId');
   });
 });

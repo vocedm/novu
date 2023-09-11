@@ -1,7 +1,10 @@
-import { IsDefined, IsMongoId, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsArray, IsString } from 'class-validator';
 
 export class GetWebhookStatusRequestDto {
-  @IsDefined()
-  @IsString()
-  transactionId: string;
+  @ApiProperty()
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  transactionId: string[];
 }

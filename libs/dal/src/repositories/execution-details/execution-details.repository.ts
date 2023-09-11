@@ -48,11 +48,39 @@ export class ExecutionDetailsRepository extends BaseRepository<
   /**
    * Activity feed might need to retrieve all the executions of a notification.
    */
-  public async findByTransactionId(transactionId: string, environmentId: string) {
-    return await this.find({
-      transactionId: transactionId,
-      _environmentId: environmentId,
-      source: 'Webhook',
-    });
+  public async findByTransactionId(transactionId: string[], environmentId: string) {
+    const match = { transactionId: { $in: transactionId } };
+    const sort = { transactionId: 1, createdAt: -1 };
+    const group = {
+      _id: '$transactionId',
+      webhookStatus: { $first: '$webhookStatus' },
+      providerId: { $first: '$providerId' },
+      createdAt: { $first: '$createdAt' },
+    };
+    const project = {
+      transactionId: '$_id',
+      webhookStatus: '$webhookStatus',
+      providerId: '$providerId',
+      createdAt: '$createdAt',
+    };
+
+    const query = [
+      {
+        $match: match,
+      },
+      {
+        $sort: sort,
+      },
+      {
+        $group: group,
+      },
+      {
+        $project: project,
+      },
+    ];
+
+    const data = await this.aggregate(query);
+
+    return data;
   }
 }

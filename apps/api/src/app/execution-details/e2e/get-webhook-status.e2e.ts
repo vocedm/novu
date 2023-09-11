@@ -1,25 +1,18 @@
-import { ExecutionDetailsRepository, SubscriberEntity } from '@novu/dal';
-import { ExecutionDetailsSourceEnum, ExecutionDetailsStatusEnum, StepTypeEnum } from '@novu/shared';
-import { UserSession, SubscribersService } from '@novu/testing';
-import axios from 'axios';
+import { ExecutionDetailsRepository } from '@novu/dal';
+import { UserSession } from '@novu/testing';
 import { expect } from 'chai';
+import { ExecutionDetailsSourceEnum, ExecutionDetailsStatusEnum, StepTypeEnum } from '@novu/shared';
 
-const axiosInstance = axios.create();
-
-describe('Execution details - Get webhook details by transaction id - /v1/execution-details/webhook/:transactionId (GET)', function () {
+describe('should get webhook details by transactionId - /executation-details/webhook (GET)', function () {
   let session: UserSession;
   const executionDetailsRepository: ExecutionDetailsRepository = new ExecutionDetailsRepository();
-  let subscriber: SubscriberEntity;
-  let subscriberService: SubscribersService;
 
   beforeEach(async () => {
     session = new UserSession();
     await session.initialize();
-    subscriberService = new SubscribersService(session.organization._id, session.environment._id);
-    subscriber = await subscriberService.createSubscriber();
   });
 
-  it('should get webhook executation details by transactionId', async function () {
+  it('get webhook executation details by transactionId', async function () {
     const transactionId = 'transactionId';
     const detail = await executionDetailsRepository.create({
       _jobId: ExecutionDetailsRepository.createObjectId(),
@@ -27,7 +20,7 @@ describe('Execution details - Get webhook details by transaction id - /v1/execut
       _organizationId: session.organization._id,
       _notificationId: ExecutionDetailsRepository.createObjectId(),
       _notificationTemplateId: ExecutionDetailsRepository.createObjectId(),
-      _subscriberId: subscriber._id,
+      _subscriberId: ExecutionDetailsRepository.createObjectId(),
       providerId: '',
       transactionId: 'transactionId',
       channel: StepTypeEnum.EMAIL,
@@ -37,17 +30,11 @@ describe('Execution details - Get webhook details by transaction id - /v1/execut
       isTest: false,
       isRetry: false,
     });
+    const payload = {
+      transactionId: ['transactionId'],
+    };
 
-    const {
-      data: { data },
-    } = await axiosInstance.get(`${session.serverUrl}/v1/execution-details/webook?transactionId=${transactionId}`, {
-      headers: {
-        authorization: `ApiKey ${session.apiKey}`,
-      },
-    });
-    const responseDetail = data[0];
-    expect(responseDetail.transactionId).to.equal(transactionId);
-    expect(responseDetail.channel).to.equal(detail.channel);
-    expect(responseDetail._id).to.equal(detail._id);
+    const { body } = await session.testAgent.get(`/v1/executation-details/webhook`).send(payload);
+    expect(body[0].transactionId).to.equal('transactionId');
   });
 });

@@ -51,17 +51,26 @@ export class ExecutionDetailsRepository extends BaseRepository<
   public async findByTransactionId(transactionId: string[], environmentId: string) {
     const match = { transactionId: { $in: transactionId } };
     const sort = { transactionId: 1, createdAt: -1 };
+    const lookup = {
+      from: 'jobs',
+      localField: 'transactionId',
+      foreignField: 'transactionId',
+      as: 'jobInfo',
+    };
     const group = {
       _id: '$transactionId',
       webhookStatus: { $first: '$webhookStatus' },
       providerId: { $first: '$providerId' },
       createdAt: { $first: '$createdAt' },
+      jobStatus: { $first: '$jobInfo.status' },
     };
     const project = {
+      _id: 0,
       transactionId: '$_id',
       webhookStatus: '$webhookStatus',
       providerId: '$providerId',
       createdAt: '$createdAt',
+      jobStatus: '$jobStatus',
     };
 
     const query = [
@@ -70,6 +79,12 @@ export class ExecutionDetailsRepository extends BaseRepository<
       },
       {
         $sort: sort,
+      },
+      {
+        $lookup: lookup,
+      },
+      {
+        $unwind: '$jobInfo',
       },
       {
         $group: group,

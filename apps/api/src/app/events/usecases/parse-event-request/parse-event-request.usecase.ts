@@ -137,6 +137,7 @@ export class ParseEventRequest {
       acknowledged: true,
       status: 'processed',
       transactionId: transactionId,
+      additionalInformation: command.to,
     };
   }
 

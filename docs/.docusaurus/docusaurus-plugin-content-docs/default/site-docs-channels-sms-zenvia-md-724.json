@@ -1,0 +1,27 @@
+{
+  "unversionedId": "channels/sms/zenvia",
+  "id": "channels/sms/zenvia",
+  "title": "Zenvia",
+  "description": "It is possible to use the Zenvia provider to send SMS and WhatsApp messages to the customers using the Novu Platform with a single API to create multi-channel experiences. Zenvia allow to send messages with specifics templates messages. Learn more in a doc Zenvia Development Doc",
+  "source": "@site/docs/channels/sms/zenvia.md",
+  "sourceDirName": "channels/sms",
+  "slug": "/channels/sms/zenvia",
+  "permalink": "/channels/sms/zenvia",
+  "draft": false,
+  "editUrl": "https://github.com/novuhq/novu/blob/main/docs/docs/channels/sms/zenvia.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "leonardovocedm",
+  "lastUpdatedAt": 1693241003,
+  "formattedLastUpdatedAt": "Aug 28, 2023",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Termii",
+    "permalink": "/channels/sms/termii"
+  },
+  "next": {
+    "title": "Notification Center",
+    "permalink": "/channels/notification-center"
+  }
+}

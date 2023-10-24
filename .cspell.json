@@ -510,7 +510,12 @@
     "mediumdark",
     "Docgen",
     "zenvia",
-    "Zenvia"
+    "Zenvia",
+    "clicksend",
+    "Clicksend",
+    "Kamil",
+    "Myśliwiec",
+    "nestframework"
   ],
   "flagWords": [],
   "patterns": [

@@ -19,6 +19,7 @@ import {
   africasTalkingConfig,
   sendchampConfig,
   zenviaConfig,
+  clickSendConfig,
 } from '../credentials';
 import { SmsProviderIdEnum } from '../provider.enum';
 
@@ -187,5 +188,13 @@ export const smsProviders: IProviderConfig[] = [
     credentials: zenviaConfig,
     docReference: 'https://zenvia.github.io/zenvia-openapi-spec/v2/',
     logoFileName: { light: 'zenvia.png', dark: 'zenvia.svg' },
+  },
+  {
+    id: SmsProviderIdEnum.Clicksend,
+    displayName: `Clicksend`,
+    channel: ChannelTypeEnum.SMS,
+    credentials: clickSendConfig,
+    docReference: 'https://developers.clicksend.com/docs/rest/v3/?javascript--nodejs#send-sms',
+    logoFileName: { light: 'clicksend.png', dark: 'clicksend.png' },
   },
 ];

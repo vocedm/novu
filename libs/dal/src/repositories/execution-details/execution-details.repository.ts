@@ -63,6 +63,7 @@ export class ExecutionDetailsRepository extends BaseRepository<
       providerId: { $first: '$providerId' },
       createdAt: { $first: '$createdAt' },
       jobStatus: { $first: '$jobInfo.status' },
+      raw: { $first: '$raw' },
     };
     const project = {
       _id: 0,
@@ -71,6 +72,7 @@ export class ExecutionDetailsRepository extends BaseRepository<
       providerId: '$providerId',
       createdAt: '$createdAt',
       jobStatus: '$jobStatus',
+      raw: '$raw',
     };
 
     const query = [
@@ -95,6 +97,11 @@ export class ExecutionDetailsRepository extends BaseRepository<
     ];
 
     const data = await this.aggregate(query);
+
+    data.forEach(function (elem) {
+      const newRaw = JSON.parse(elem.raw);
+      elem.raw = newRaw;
+    });
 
     return data;
   }

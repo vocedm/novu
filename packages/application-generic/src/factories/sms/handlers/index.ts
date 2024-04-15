@@ -25,3 +25,4 @@ export * from './azure-sms.handler';
 export * from './bulk-sms.handler';
 export * from './nexmo.handler';
 export * from './zenvia.handler';
+export * from './twilio-whatsapp.handler';

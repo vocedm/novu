@@ -7,13 +7,11 @@ import {
   SmsEventStatusEnum,
 } from '@novu/stateless';
 
-import { Twilio } from 'twilio';
 import axios from 'axios';
 
-export class TwilioSmsProvider implements ISmsProvider {
-  id = 'twilio';
+export class TwilioWhatsAppProvider implements ISmsProvider {
+  id = 'twilio-whatsapp';
   channelType = ChannelTypeEnum.SMS as ChannelTypeEnum.SMS;
-  private twilioClient: Twilio;
 
   constructor(
     private config: {
@@ -21,31 +19,35 @@ export class TwilioSmsProvider implements ISmsProvider {
       authToken?: string;
       from?: string;
     }
-  ) {
-    this.twilioClient = new Twilio(config.accountSid, config.authToken);
-  }
+  ) {}
 
   async sendMessage(
     options: ISmsOptions
   ): Promise<ISendMessageSuccessResponse> {
-    const twilioResponse = await this.twilioClient.messages.create({
-      body: options.content,
-      to: options.to,
-      from: options.from || this.config.from,
-    });
+    const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${this.config.accountSid}/Messages.json`;
+
+    const data = new URLSearchParams();
+    data.append('To', 'whatsapp:' + options.to);
+    data.append('From', `whatsapp:${this.config.from}`);
+    data.append('Body', options.content);
+
+    const header = {
+      headers: {
+        Authorization: `Basic ${Buffer.from(
+          `${this.config.accountSid}:${this.config.authToken}`
+        ).toString('base64')}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
+
+    const url = `${twilioUrl}`;
+    const axiosInstance = axios.create();
+    const response = await axiosInstance.post(url, data, header);
 
     return {
-      id: twilioResponse.sid,
-      date: twilioResponse.dateCreated.toISOString(),
+      id: response.data.id,
+      date: new Date().toISOString(),
     };
-  }
-
-  getMessageId(body: any | any[]): string[] {
-    if (Array.isArray(body)) {
-      return body.map((item) => item.MessageSid);
-    }
-
-    return [body.MessageSid];
   }
 
   parseEventBody(

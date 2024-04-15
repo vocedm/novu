@@ -544,7 +544,9 @@
     "headerapikey",
     "quckstart",
     "zenvia",
-    "Zenvia"
+    "Zenvia",
+    "twilio-whatsapp",
+    "Twillio-whatsapp"
   ],
   "flagWords": [],
   "patterns": [

@@ -1028,3 +1028,19 @@ export const zenviaConfig: IConfigCredentials[] = [
     required: true,
   },
 ];
+
+export const twilioWhatsAppConfig: IConfigCredentials[] = [
+  {
+    key: CredentialsKeyEnum.AccountSid,
+    displayName: 'Account SID',
+    type: 'string',
+    required: true,
+  },
+  {
+    key: CredentialsKeyEnum.Token,
+    displayName: 'Auth token',
+    type: 'string',
+    required: true,
+  },
+  ...smsConfigBase,
+];

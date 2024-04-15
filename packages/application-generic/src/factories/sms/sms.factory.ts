@@ -27,6 +27,7 @@ import {
   NovuSmsHandler,
   NexmoHandler,
   ZenviaHandler,
+  TwilioWhatsAppHandler,
 } from './handlers';
 
 export class SmsFactory implements ISmsFactory {
@@ -57,6 +58,7 @@ export class SmsFactory implements ISmsFactory {
     new NovuSmsHandler(),
     new NexmoHandler(),
     new ZenviaHandler(),
+    new TwilioWhatsAppHandler(),
   ];
 
   getHandler(integration: IntegrationEntity) {

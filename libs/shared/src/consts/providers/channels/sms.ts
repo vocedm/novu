@@ -258,7 +258,7 @@ export const smsProviders: IProviderConfig[] = [
     displayName: 'Twilio WhatsApp',
     channel: ChannelTypeEnum.SMS,
     credentials: twilioWhatsAppConfig,
-    docReference: '',
-    logoFileName: { light: 'twilio.png', dark: 'twilio.png' },
+    docReference: 'https://docs.novu.co/channels-and-providers/sms/twilio',
+    logoFileName: { light: 'twilio-whatsapp.png', dark: 'twilio-whatsapp.png' },
   },
 ];

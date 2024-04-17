@@ -6,7 +6,6 @@ import {
   ISmsProvider,
   SmsEventStatusEnum,
 } from '@novu/stateless';
-
 import axios from 'axios';
 
 export class TwilioWhatsAppProvider implements ISmsProvider {
@@ -28,7 +27,7 @@ export class TwilioWhatsAppProvider implements ISmsProvider {
 
     const data = new URLSearchParams();
     data.append('To', 'whatsapp:' + options.to);
-    data.append('From', `whatsapp:${this.config.from}`);
+    data.append('From', 'whatsapp:' + options.from);
     data.append('Body', options.content);
 
     const header = {
@@ -45,9 +44,17 @@ export class TwilioWhatsAppProvider implements ISmsProvider {
     const response = await axiosInstance.post(url, data, header);
 
     return {
-      id: response.data.id,
+      id: response.data.sid,
       date: new Date().toISOString(),
     };
+  }
+
+  getMessageId(body: any | any[]): string[] {
+    if (Array.isArray(body)) {
+      return body.map((item) => item.MessageSid);
+    }
+
+    return [body.MessageSid];
   }
 
   parseEventBody(

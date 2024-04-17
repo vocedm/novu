@@ -8,7 +8,6 @@ import {
 } from '@novu/stateless';
 
 import { Twilio } from 'twilio';
-import axios from 'axios';
 
 export class TwilioSmsProvider implements ISmsProvider {
   id = 'twilio';

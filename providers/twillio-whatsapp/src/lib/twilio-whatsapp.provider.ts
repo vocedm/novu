@@ -101,6 +101,8 @@ export class TwilioWhatsAppProvider implements ISmsProvider {
         return SmsEventStatusEnum.DELIVERED;
       case 'undelivered':
         return SmsEventStatusEnum.UNDELIVERED;
+      case 'read':
+        return SmsEventStatusEnum.DELIVERED;
     }
   }
 }

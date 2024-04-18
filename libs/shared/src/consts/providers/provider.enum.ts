@@ -97,6 +97,7 @@ export enum SmsProviderIdEnum {
   Simpletexting = 'simpletexting',
   AzureSms = 'azure-sms',
   Zenvia = 'zenvia',
+  TwilioWhatsApp = 'twilio-whatsapp',
 }
 
 export enum ChatProviderIdEnum {

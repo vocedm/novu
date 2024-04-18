@@ -26,6 +26,7 @@ import {
   azureSmsConfig,
   bulkSmsConfig,
   zenviaConfig,
+  twilioWhatsAppConfig,
 } from '../credentials';
 import { SmsProviderIdEnum } from '../provider.enum';
 
@@ -251,5 +252,13 @@ export const smsProviders: IProviderConfig[] = [
     credentials: zenviaConfig,
     docReference: 'https://zenvia.github.io/zenvia-openapi-spec/v2/',
     logoFileName: { light: 'zenvia.svg', dark: 'zenvia.svg' },
+  },
+  {
+    id: SmsProviderIdEnum.TwilioWhatsApp,
+    displayName: 'Twilio WhatsApp',
+    channel: ChannelTypeEnum.SMS,
+    credentials: twilioWhatsAppConfig,
+    docReference: 'https://docs.novu.co/channels-and-providers/sms/twilio',
+    logoFileName: { light: 'twilio-whatsapp.png', dark: 'twilio-whatsapp.png' },
   },
 ];
